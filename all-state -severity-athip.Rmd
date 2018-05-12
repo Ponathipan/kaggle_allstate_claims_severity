@@ -1,0 +1,80 @@
+---
+title: "All state Claims Severity"
+output: html_notebook
+---
+
+
+
+```{r}
+set.seed(0) #  setting a seed will ensure reproducible results (not R's seed)
+setwd("D:\\uns\\data-valaroziation\\lab\\all_state_claims_insurance")
+train = read.csv("allstate_train.csv", header = T)
+test = read.csv("allstate_test.csv", header = T)
+```
+
+```{r}
+library(ggplot2) # Data visualization
+library(readr) # CSV file I/O, e.g. the read_csv function
+library(corrplot)
+
+```
+
+```{r}
+#separate continuous and categorical variables
+contVars <- paste0("cont", seq(1, 14))
+train_cont <- train[contVars]
+train_cont <- cbind(train_cont,train$loss)
+catVars <- paste0("cat", seq(1, 116))
+train_cat <- train[catVars]
+train_cat <- cbind(train_cat,train$loss)
+colnames(train_cont)[15] <- "loss"
+```
+
+```{r}
+#To check missing value in the data set
+sum(is.na(train)==TRUE)
+```
+
+```{r}
+#The total number of categorical variables
+cats = grep("cat", colnames(train))
+length(cats)
+```
+
+```{r}
+#number of continous variables
+conts = grep("cont", colnames(train))
+length(conts)
+```
+
+```{r}
+
+```
+
+```{r}
+#Digging into Continuous Variables
+boxplot(train_cont[,contVars])  #not much outliers
+#All continuous variables are within (0,1). They may denote some kind of probabilty
+#This shows the dataset is already normalised.
+```
+
+```{r}
+
+#correlation matrix for continuous variables
+corela = cor(train_cont)
+corrplot(corela)   
+highCorr <- findCorrelation(corela, cutoff = .75)
+```
+
+```{r}
+
+
+
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
